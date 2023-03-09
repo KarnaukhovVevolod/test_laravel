@@ -16,3 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::middleware('auth:sanctum')->match(['get','post'],'/create','\App\Http\Controllers\CrudController@save');
+
+Route::middleware('auth:sanctum')->match(['get','post'],'/update/{id}','\App\Http\Controllers\CrudController@update');
+
+Route::match(['get','post'],'/viewDelete','\App\Http\Controllers\CrudController@viewDelete');
+
+Route::match(['post'],'/delete/{id}','\App\Http\Controllers\CrudController@delete');
+
+Route::get('/del', function () {
+    return view('welcome');
+});
