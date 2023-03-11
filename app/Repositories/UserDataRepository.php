@@ -14,13 +14,9 @@ class UserDataRepository
         $this->userData = app(UserData::class);
     }
 
-
     public function getAllDataObjectsUsers(): Collection
     {
-        return $this->userData::all();
+        $objects = $this->userData::all();
+        return $objects;
     }
-
-
-
-
 }

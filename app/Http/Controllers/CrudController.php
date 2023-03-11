@@ -26,12 +26,6 @@ class CrudController extends Controller
     public function save(Request $request)
     {
         try {
-
-            //if (auth()->user()->getRememberToken()){
-
-                //echo auth()->user()->getAuthIdentifier();
-
-            //}
             if ($data = $request->get('data')) {
                 $start = microtime(true);
                 $memory = memory_get_usage();
@@ -41,7 +35,7 @@ class CrudController extends Controller
                 );
                 $time = (microtime(true) - $start) . ' сек. ';
                 $memory = (memory_get_usage() - $memory) . ' байт';
-                return response()->json([$data, 'time'=>$time, 'memory'=>$memory, 'id'=>$id]);
+                return response()->json(['time'=>$time, 'memory'=>$memory, 'id'=>$id]);
             } else {
                 return response()->json('Error: не передали данные для записи');
             }
@@ -75,6 +69,7 @@ class CrudController extends Controller
     {
         $usersObject = $this->userDataRepository->getAllDataObjectsUsers();
         $usersData = $this->usersRepository->getAllDataUsers();
+        $this->userDataService->convertObjectToHtml($usersObject);
         return View::make('user.delete',['usersObject'=>$usersObject,'usersData'=>$usersData]);
     }
 

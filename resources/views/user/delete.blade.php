@@ -15,14 +15,14 @@
 @section('content')
 
 
-    <div class="accordion accordion-flush" id="accordionFlushExample">
+    <div class="accordion accordion-flush" id="accordionFlushExample_00">
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-headingOne">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne_00" aria-expanded="false" aria-controls="flush-collapseOne">
                     посмотреть  объекты пользователей
                 </button>
             </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div id="flush-collapseOne_00" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample00">
                 <div class="accordion-body">
                     <table class="table">
                         <thead>
@@ -36,15 +36,16 @@
                             <th scope="col">удалить</th>
                         </tr>
                         </thead>
+
                         <tbody>
-                        <?php $i=0;?>
+                        <?php $i=0; ?>
                         @foreach($usersObject as $userObject)
                                 <?php $i++; ?>
                             <tr>
                                 <th scope="row">{{$i}}</th>
                                 <td>{{$userObject->id}}</td>
                                 <td>{{$userObject->client_id}}</td>
-                                <td>{{$userObject->data_user}}</td>
+                                <td><?= $userObject->data_user ?></td>
                                 <td>{{$userObject->created_at}}</td>
                                 <td>{{$userObject->updated_at}}</td>
                                 <td>
@@ -103,11 +104,13 @@
         </div>
 
     </div>
+    </div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="{{ asset('../resources/js/delete.js') }}"></script>
 </body>
 </html>
 
-
-
 <!--endsection-->
+

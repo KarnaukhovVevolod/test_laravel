@@ -25,6 +25,6 @@ Route::match(['get','post'],'/viewDelete','\App\Http\Controllers\CrudController@
 
 Route::match(['post'],'/delete/{id}','\App\Http\Controllers\CrudController@delete');
 
-Route::get('/del', function () {
-    return view('welcome');
+Route::get('/testing', function () {
+    return view('testing');
 });
