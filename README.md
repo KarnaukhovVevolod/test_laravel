@@ -64,3 +64,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## в папке dop_files я приложил два файла конфигурации сервера. Скорее всего вам нужен этот файл (httpd_для apache.conf), также в этой папке находится отчёт о проделанной работе
+
+I have installed this test project in xampp 8.0.15. To run the project you must first start xampp and run the following modules in it:
+- apache web server;
+- MySQL.
+  There are several scripts implemented in the project:
+- the first script runs the command "php artisan getToken:user --login={insert user login here} --password={insert user password here}", it generates a token (valid for 5 minutes) for this user to be able to add and modify user objects;
+- The second script adds the user objects to the database. I go to the test form page at the address "http://localhost/test/public/testing", select the method for http request, enter the login received by the first script, user object in json format, the url for adding the object I put "http://localhost/test/public/create" and after submitting the form this object is added to the database;
+- the third script modifies the objects added by the user to the database. I enter the page of the test form at the address "http://localhost/test/public/testing", select the method for http request, enter the login received by the first script, the part of the user object which needs to change the format of json, url to change the object I put a "http://localhost/test/public/update/{id}" and after sending the form of this object c such {id} is sought in the database and changed;
+- the fourth script allows you to view the added objects and delete them, as well as view users. A demonstration of its work is shown on http://localhost/test/public/viewDelete.
+
