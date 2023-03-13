@@ -65,8 +65,17 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## в папке dop_files я приложил два файла конфигурации сервера. Скорее всего вам нужен этот файл (httpd_для apache.conf), также в этой папке находится отчёт о проделанной работе
+## apache config
+Alias /bitnami/ "/opt/lampp/apache2/htdocs/"
+Alias /bitnami "/opt/lampp/apache2/htdocs"
 
+<Directory "/opt/lampp/apache2/htdocs">
+Options Indexes FollowSymLinks
+AllowOverride All
+Order allow,deny
+Allow from all
+</Directory>
+## how to work with the project
 I have installed this test project in xampp 8.0.15. To run the project you must first start xampp and run the following modules in it:
 - apache web server;
 - MySQL.
