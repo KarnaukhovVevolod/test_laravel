@@ -43,10 +43,12 @@ class GetToken extends Command
             $name = $token->id.'_'.$token->login.'_'.$token->password;
             $users->login_verified_at = (Carbon::now())->addMinute(5);
             $token = $token->createToken($name,['*'],$users->login_verified_at);
+            $users->remember_token = $token->plainTextToken;
+            $users->save();
             print_r('      Cкопируйте ваш токен он действует 5 минут   ');
             echo "\n";
             $this->alert($token->plainTextToken);
-            echo "\n";
+
             return 0;
 
         } else {

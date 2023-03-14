@@ -16,9 +16,6 @@ class UserDataService
                 <div class="accordion-body">';
     private $accordion_4=' </div></div></div> ';
 
-    private array $array = [];
-
-
     public function saveUserData(int $clientId, string $data): int
     {
         $userData = new UserData();
@@ -45,7 +42,7 @@ class UserDataService
         $updateUserData->save();
         return 'Данные успешно обновлены';
     }
-    protected function recursiveUpdate (&$dbupdate, $data)
+    public function recursiveUpdate (&$dbupdate, $data)
     {
         if (gettype($data) == "object") {
             $datanew = get_object_vars($data);
@@ -88,8 +85,6 @@ class UserDataService
                     $number++;
                     $this->recursiveUpdateHtml($objectHtml, $objectValue, $number, $Key);
                 }
-                //$this->recursiveUpdateHtml($objectHtml, json_decode($collection->data_user),$number);
-                //$number+=100;
                 $collection->data_user = $objectHtml;
             }
         }
@@ -102,7 +97,6 @@ class UserDataService
             $datanew = get_object_vars($data);
             foreach ($datanew as $keyObject => $value) {
                 $number++;
-                $this->array[] = $number;
                 $dbupdate .= ' ' . $this->accordion_1_0 . $number . $this->accordion_1_1 . ' <br> тип ' . gettype($data) . ' <br> ключ ' . $keyObject . ' ' . $this->accordion_2 . ' ' . $this->accordion_3_0 . $number . $this->accordion_3_1;
                 $this->recursiveUpdateHtml($dbupdate, $value, $number);
             }
@@ -134,12 +128,8 @@ class UserDataService
         }
     }
 
-
-
     public function deleteUserObject(int $id): void
     {
         UserData::where('id', $id)->delete();
     }
-
-
 }

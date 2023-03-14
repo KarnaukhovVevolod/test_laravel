@@ -22,7 +22,6 @@ class CrudController extends Controller
         $this->usersRepository = app(UsersRepository::class);
     }
 
-
     public function save(Request $request)
     {
         try {
@@ -35,13 +34,13 @@ class CrudController extends Controller
                 );
                 $time = (microtime(true) - $start) . ' сек. ';
                 $memory = (memory_get_usage() - $memory) . ' байт';
-                return response()->json(['time'=>$time, 'memory'=>$memory, 'id'=>$id]);
+                return response()->json(['time'=>$time, 'memory'=>$memory, 'id'=>$id],201);
             } else {
-                return response()->json('Error: не передали данные для записи');
+                return response()->json('Error: не передали данные для записи',400);
             }
 
         } catch (\Throwable $e) {
-            return response()->json($e->getMessage());
+            return response()->json($e->getMessage(),505);
         }
 
         //echo 'Данные получены';
@@ -55,12 +54,12 @@ class CrudController extends Controller
                     (int) auth()->user()->getAuthIdentifier(),
                     $data
                 );
-                return response()->json($message);
+                return response()->json($message,202);
             } else {
-                return response()->json('Error: не передали данные для записи');
+                return response()->json('Error: не передали данные для записи',400);
             }
         } catch (\Throwable $e) {
-            return response()->json([$e->getMessage(),$e->getFile(),$e->getLine()]);
+            return response()->json([$e->getMessage(),$e->getFile(),$e->getLine()],505);
         }
 
     }
@@ -78,5 +77,4 @@ class CrudController extends Controller
         $this->userDataService->deleteUserObject((int)$id);
         return Redirect::action([$this::class,'viewDelete']);
     }
-
 }
