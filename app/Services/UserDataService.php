@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\UserData;
+use Illuminate\Support\Facades\Log;
 
 class UserDataService
 {
@@ -23,6 +24,7 @@ class UserDataService
         $userData->data_user = $data;
         $userData->created_at = now();
         $userData->save();
+        Log::info('Добавили объект для клиента с client_id = '.$clientId);
         return $userData->id;
     }
 
@@ -31,15 +33,20 @@ class UserDataService
         $updateUserData = UserData::where('id',$id)->first();
         if (isset($updateUserData->client_id) && $updateUserData->client_id != $clientId) {
             if ($updateUserData === null) {
-                return 'нет записи в бд с id = '.$id;
+                $warning = 'нет записи в бд с id = '.$id;
+                Log::warning($warning);
+                return $warning;
             }
-            return'Увас нет прав на редактирование этого объекта';
+            $warning = 'Увас нет прав на редактирование этого объекта';
+            Log::warning($warning);
+            return $warning;
         }
         $dbUserData = json_decode($updateUserData->data_user);
         $data = json_decode($data);
         $this->recursiveUpdate($dbUserData,$data);
         $updateUserData->data_user=json_encode($dbUserData);
         $updateUserData->save();
+        Log::info('Обновили объект клиента с id = '.$id);
         return 'Данные успешно обновлены';
     }
     public function recursiveUpdate (&$dbupdate, $data)
@@ -131,5 +138,6 @@ class UserDataService
     public function deleteUserObject(int $id): void
     {
         UserData::where('id', $id)->delete();
+        Log::info('Удалили объект с id = '.$id);
     }
 }

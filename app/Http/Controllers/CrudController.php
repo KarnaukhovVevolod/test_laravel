@@ -6,6 +6,7 @@ use App\Repositories\UserDataRepository;
 use App\Repositories\UsersRepository;
 use App\Services\UserDataService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 
@@ -36,10 +37,12 @@ class CrudController extends Controller
                 $memory = (memory_get_usage() - $memory) . ' байт';
                 return response()->json(['time'=>$time, 'memory'=>$memory, 'id'=>$id],201);
             } else {
+                Log::warning('Error: не передали данные для записи');
                 return response()->json('Error: не передали данные для записи',400);
             }
 
         } catch (\Throwable $e) {
+            Log::error($e->getMessage());
             return response()->json($e->getMessage(),505);
         }
 
@@ -56,19 +59,26 @@ class CrudController extends Controller
                 );
                 return response()->json($message,202);
             } else {
+                Log::warning('Error: не передали данные для записи');
                 return response()->json('Error: не передали данные для записи',400);
             }
         } catch (\Throwable $e) {
+            Log::error($e->getMessage().' '.$e->getFile().' '.$e->getLine());
             return response()->json([$e->getMessage(),$e->getFile(),$e->getLine()],505);
         }
-
     }
 
     public function viewDelete()
     {
-        $usersObject = $this->userDataRepository->getAllDataObjectsUsers();
-        $usersData = $this->usersRepository->getAllDataUsers();
-        $this->userDataService->convertObjectToHtml($usersObject);
+        try {
+            $usersObject = $this->userDataRepository->getAllDataObjectsUsers();
+            $usersData = $this->usersRepository->getAllDataUsers();
+            $this->userDataService->convertObjectToHtml($usersObject);
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage().' '.$e->getFile().' '.$e->getLine());
+            return response()->json([$e->getMessage(),$e->getFile(),$e->getLine()],505);
+        }
+
         return View::make('user.delete',['usersObject'=>$usersObject,'usersData'=>$usersData]);
     }
 
